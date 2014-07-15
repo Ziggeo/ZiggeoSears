@@ -1,0 +1,60 @@
+<%- include begin.html.erb %>
+<section class="intro">
+    <div class="intro-body">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h1 class="brand-heading">Sears Video Reviews</h1>
+                    <form method="POST" action="/">
+                        <input type="search" class="form-control input-lg" placeholder="Search..." autofocus name="query" value="<%- query %>" />
+                    </form>
+                    <% if (error) { %>
+                    	<div class="alert alert-danger">
+                    		<%- error %>
+                    	</div>	
+                    <% } %>
+                    <br />
+                    <h6>
+                    	Review any Sears product on video now to win prizes.
+                    </h6>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<% if (results && results.length > 0) { %>
+	<section id="result" class="container content-section text-center product-result">
+		<h2>
+			Found <%- results.length %> Products
+		</h2>
+		<% for (var i = 0; i < results.length; ++i) { %>
+			<% if (i % 3 == 0) { %>
+	        	<div class="row">
+	        <% } %>
+            <div class="col-md-4">
+            	<a href="/products/<%- results[i].Id.PartNumber %>" >
+	            	<center class="image-center">
+	            		<img src="<%- results[i].Description.ImageURL %>"  />
+	            	</center>
+	            	<center class="price-center">
+	            		<% if (results[i].Price.CutPrice) { %>
+							<strike>$ <%- results[i].Price.CutPrice %></strike>
+	            		<% } %>
+						$ <%- results[i].Price.DisplayPrice %>
+					</center>
+					<p>
+						<%- results[i].Description.Name %>
+					</p>
+				</a>
+			</div> 
+			<% if ((i+1) % 3 == 0) { %>
+	        	</div>
+	        <% } %>
+		<% } %>
+	</section>
+	<script>
+		document.location.hash = "result";
+	</script>
+<% } %>
+<%- include end.html.erb %>

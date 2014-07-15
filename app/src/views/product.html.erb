@@ -1,0 +1,218 @@
+<%- include begin.html.erb %>
+<style>
+	.navbar {
+		background-color: black;
+	}
+	.small-video-container {
+		background-color:#eee; width: 162px; margin: 10px 10px 10px 10px;
+		border: 1px solid #eee;
+	}
+	.small-video-container p {
+		font-size:14px;
+		margin: 0px 0px 0px 0px;
+		padding: 0px 0px 0px 0px;
+	}
+	.record-video-container {
+		margin-top: 25px;
+		margin-bottom: 25px;
+		padding-top: 25px;
+		padding-bottom: 25px;
+		border-top: 1px solid black;
+		border-bottom: 1px solid black;
+	}
+</style>
+
+<section class="container content-section" style="padding-bottom:50px">
+	<div class="row">
+		<div class="col-md-8">
+			<h2>
+				<%- product.Description.DescriptionName %>
+			</h2>
+			<div class="rateit" data-rateit-value="<%- rating %>" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+			&middot;
+			<span>
+				<% if (reviews.length > 0) { %>
+					<a href="#reviews">
+				<% } %>
+				<%- reviews.length %> Video Reviews
+				<% if (reviews.length > 0) { %>
+					</a>
+				<% } %>
+			</span>
+			<p>
+				<a href="javascript:$('#record-video-box').show()"><span class="glyphicon glyphicon-facetime-video"></span> Leave a video review to win prizes</a>
+			</p>
+			<div style="display:none" id="record-video-box">
+				<center class="record-video-container">
+					<div class="review-submit-page" style="display: inherit" id="submit-page-1">
+						<p>Rate this now.</p>
+						<div class="rateit bigstars" data-rateit-resetable="false"></div>
+						<br /><br 7>
+						<p id="submit-rating" style="visibility:hidden">
+							<a href="javascript: {}">Submit</a>	
+						</p>						
+					</div>
+					<div class="review-submit-page" id="submit-page-2">
+						<input type="text" placeholder="Your Name" class="form-control input-lg" id="review-name" />
+						<br />
+						<input type="text" placeholder="Your Location" class="form-control input-lg" id="review-location" />
+						<br />
+						<p>
+							<a href="javascript: {}" id="submit-name-location">Record My Video</a>
+						</p>
+					</div>
+					<div class="review-submit-page" id="submit-page-3">
+						<ziggeo ziggeo-width=240 ziggeo-height=180 ziggeo-limit=60></ziggeo>
+						<br />
+						<p>
+							<a href="javascript: {}" id="submit-video" style="display:none">
+								Continue
+							</a>
+						</p>
+					</div>
+					<div class="review-submit-page" id="submit-page-4">
+						<p>
+							Leave your phone number so we can let you know if you've won.
+						</p>
+						<input type="text" placeholder="Phone Number" class="form-control input-lg" id="review-phone" />
+						<br />
+						<p>
+							<a href="javascript: {}" id="submit-phone-skip">Skip</a>
+							<a href="javascript: {}" id="submit-phone" style="display:none">Submit</a>
+						</p>
+					</div>
+					<div class="review-submit-page" id="submit-page-5">
+						<p>
+							Thanks. Want to leave a tip for Sears on Foursquare?
+						</p>
+						<p id="foursquare-status"></p>
+						<p>
+							<a href="javascript: {}" id="foursquare">Sure!</a>							
+							<a href="javascript: $('#record-video-box').hide()" id="foursquare_no_thanks">No Thanks</a>
+							<a id="foursquare-link" css="display:none" target="_blank"></a>
+						</p>
+					</div>
+				</center>
+			</div>
+			<div>
+				<img src="<%- product.Description.Images.MainImageUrl %>" style="width:80%" />
+			</div>
+			<div>
+				<%- product.Description.shortdescription %>
+			</div>
+		</div>
+		<div class="col-md-4">
+			<center>
+				<br /><br />
+				<a href="http://www.sears.com/product-item/p-<%- product.Id.PartNumber %>" target="_blank" class="btn btn-large btn-success">
+					Only $ <%- product.Price.RegularPrice %>
+				</a>
+			</center>
+			<center style="margin-top:50px" id="reviews">
+				<% if (reviews.length > 0) { %>
+					<h3>Video Reviews</h3>
+					<% for (var i = 0; i < reviews.length; ++i) { %>
+						<div class="small-video-container">
+							<ziggeo ziggeo-width=160 ziggeo-height=120 ziggeo-popup ziggeo-video="<%- reviews[i].video_token %>"></ziggeo>
+							<div class="rateit" data-rateit-value="<%- reviews[i].rating %>" data-rateit-ispreset="true" data-rateit-readonly="true"></div>
+							<p style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; font-size: 12px">
+								<%- reviews[i].name %>
+							</p>
+							<p style="padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px; font-size: 12px">
+								<%- reviews[i].location %>
+							</p>
+						</div>
+					<% } %>
+				<% } %>
+			</center>
+		</div>
+	</div>
+</section>
+
+
+<script>
+	var review = {
+		state: 1,
+		product_id: "<%- product.Id.PartNumber %>",
+		rating: null,
+		name: null,
+		location: null,
+		phone: null,
+		video_token: null
+	};
+	function review_next() {
+		if (review.state + 1 == 5) {
+			$.post("/ajax/review", {
+				data: review,
+				async: false
+			});
+		}
+		review.state = review.state + 1;
+		$(".review-submit-page").css("display", "none");
+		$("#submit-page-" + review.state).css("display", "inherit");
+	}
+	$("#submit-page-1 .rateit").bind('rated', function (event, value) {
+		review.rating = value;
+		$("#submit-rating").css("visibility", "inherit");		
+    });
+    $("#submit-rating a").on("click", review_next);
+    $("#submit-page-2 #submit-name-location").on("click", function () {
+    	review.name = $("#review-name").val();
+    	review.location = $("#review-location").val();
+		review_next();
+    });
+	$.get("http://ipinfo.io", function(response) {
+		$("#review-location").val(response.city + ", " + response.region + ", " + response.country);
+	}, "jsonp");
+	$("#review-phone").on("keypress change input", function () {
+		$("#submit-phone-skip").css("display", $("#review-phone").val() ? "none" : "inherit");
+		$("#submit-phone").css("display", !$("#review-phone").val() ? "none" : "inherit");
+	});
+    $("#submit-page-4 #submit-phone").on("click", function () {
+    	review.phone = $("#review-phone").val();
+		review_next();
+    });
+    $("#submit-page-4 #submit-phone-skip").on("click", function () {
+		review_next();
+    });
+	ZiggeoApi.Events.on("submitted", function (data) {
+		$("#submit-video").css("display", "inherit");
+		review.video_token = data.video.token;
+	});
+	ZiggeoApi.Events.on("discarded", function (data) {
+		$("#submit-video").css("display", "none");
+	});
+	$("#submit-video").on("click", review_next);
+	$("#foursquare").on("click", function () {
+		$("#foursquare_no_thanks").hide();
+		var status = $("#foursquare-status");
+		var link = "https://foursquare.com/explore?&q=Sears";
+		var found = false;
+		$("#foursquare").css("display", "none");
+	    function update_foursquare() {
+	    	status.html(found ? "Nice, you're inside Sears!" : "Looks like you're not in a Sears store right now.");
+	    	$("#foursquare-link").attr("href", link);
+	    	$("#foursquare-link").html(found ? "Click here to leave a tip" : "Click here to find your store");
+	    	$("#foursquare-link").css("display", "inherit");
+	    }
+		status.html("Checking your location...");
+	    if (navigator.geolocation) {
+	        navigator.geolocation.getCurrentPosition(function (position) {
+	        	$.get("/ajax/foursquare?latitude=" + position.coords.latitude + "&longitude=" + position.coords.longitude).
+	        	success(function (response) {
+	        		response = JSON.parse(response);
+	        		link = response.link;
+	        		found = response.found;
+	        		update_foursquare();
+	        	}).failure(function () {
+	        		update_foursquare();
+	        	});
+	        }, function () {
+	        	update_foursquare();
+	        });
+	    } else
+	    	update_foursquare();
+	});
+</script>
+
+<%- include end.html.erb %>

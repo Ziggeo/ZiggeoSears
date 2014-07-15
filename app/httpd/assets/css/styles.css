@@ -1,0 +1,32 @@
+.review-submit-page {
+	display: none;
+}
+
+.product-result .col-md-4:hover {
+	border: 2px solid #eee;
+}
+.product-result .col-md-4 {
+	border: 2px solid #fff;
+}
+.product-result a {
+	color: black;
+}
+.product-result img {
+	max-width: 200px;
+	max-height: 200px;
+}
+.product-result p {
+	font-size: 90%;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+.product-result center.image-center {
+	margin-top: 25px;
+	height: 200px;
+	overflow: hidden;
+	margin-bottom: 25px;
+}
+.product-result center.price-center {
+	font-size: 120%;
+}

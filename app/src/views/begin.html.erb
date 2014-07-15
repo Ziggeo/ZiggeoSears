@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	    <meta charset="utf-8">
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="Video Reviews for Sears">
+	    <meta name="author" content="Oliver Friedmann">
+		<link rel="stylesheet" href="//assets.ziggeo.com/css/ziggeo-betajs-player.min.css" />
+		<script src="//assets.ziggeo.com/js/ziggeo-jquery-json2-betajs-player.min.js"></script>
+		<script>ZiggeoApi.token = "<%- App.Config.ziggeo_token %>";</script>
+		<link rel="stylesheet" href="/assets/rateit/rateit.css" />
+		<script src="/assets/rateit/jquery.rateit.min.js"></script>		
+		<link rel="stylesheet" href="/assets/css/styles.css" />
+	    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+	    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
+	    <link href="/assets/grayscale/css/grayscale.css" rel="stylesheet">
+	    <script src="/assets/grayscale/js/grayscale.js"></script>
+		<title>
+			Sears Video Reviews <%- typeof title == "string" ? (" - " + title) : "" %>
+		</title>
+	</head>
+	<body id="page-top" data-spy="scroll" data-target=".navbar-custom">
+	
+	    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+	        <div class="container">
+	            <div class="navbar-header page-scroll">
+	                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+	                    <i class="fa fa-bars"></i>
+	                </button>
+	                <a class="navbar-brand" href="/">
+	                    <i class="fa fa-play-circle"></i>  <span class="light">Sears Video Reviews </span> 
+	                </a>
+	            </div>
+	
+	            <!-- Collect the nav links, forms, and other content for toggling -->
+	            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+	                <ul class="nav navbar-nav">
+	                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+	                    <li class="hidden">
+	                        <a href="#page-top"></a>
+	                    </li>
+	                    <li class="page-scroll">
+	                        <a href="https://developer.sears.com" target="_blank">Sears API</a>
+	                    </li>
+	                    <li class="page-scroll">
+	                        <a href="http://ziggeo.com" target="_blank">Ziggeo API</a>
+	                    </li>
+	                    <li class="page-scroll">
+	                        <a href="http://twilio.com" target="_blank">Twilio API</a>
+	                    </li>
+	                    <li class="page-scroll">
+	                        <a href="http://developer.foursquare.com" target="_blank">Foursquare API</a>
+	                    </li>
+	                </ul>
+	            </div>
+	            <!-- /.navbar-collapse -->
+	        </div>
+	        <!-- /.container -->
+	    </nav>
