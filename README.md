@@ -1,4 +1,4 @@
-Video Reviews
+Video Reviews (deprecated)
 =================
 
 Ziggeo API (http://ziggeo.com) allows you to integrate video recording and playback with only
